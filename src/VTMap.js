@@ -8,13 +8,12 @@ class VTMap extends React.Component {
         super(props)
 
         this.state = {
-            color: props.color
-
+            
         }
     }
 
     render() {
-        console.log(this.state.color)
+       
         let vtBorder = borderData.geometry.coordinates[0].map(coordSet => {
             return [coordSet[1], coordSet[0]]
         })
