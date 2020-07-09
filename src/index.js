@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import VTMap from './VTMap'
+import App from './App.js'
 ReactDOM.render(
-  <VTMap/>,
+  <App/>,
   document.getElementById('root')
 )
