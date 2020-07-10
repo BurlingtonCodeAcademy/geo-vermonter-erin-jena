@@ -12,62 +12,61 @@ export class App extends Component {
       gameStarted: false,
       long: -72.7317,
       lat: 44.0886,
+      zoom: 8,
+      marker: {
+        lat: 43.85,
+        long: -72.7317
+      }
     }
   }
 
   randomLatLong = (minLat, maxLat, minLong, maxLong) => {
     console.log("inside latlong")
-    let latCoords = (Math.random() * (45.005419 - 42.730315) + 42.730315)
-    let longCoords = (Math.random() * (71.510225 - (73.352182)) + 73.352182) * -1
-      console.log(longCoords)
-      console.log(latCoords)
+    let latCoords = Math.random() * (45.005419 - 42.730315) + 42.730315
+    let longCoords = (Math.random() * (71.510225 - 73.352182) + 73.352182) * -1
+    console.log(longCoords)
+    console.log(latCoords)
 
-    return ({
+    return {
       long: longCoords,
       lat: latCoords,
-    })
+    }
   }
-  
-  placeMarker = (evt) => {
-     console.log("inside place marker")
+
+  placeMarker = () => {
     let gjLayer = L.geoJSON(borderData)
     let point = this.randomLatLong()
 
-    let results = leafletPip.pointInLayer(
-      [point.long, point.lat],
-      gjLayer
-    )
-    
-
+    let results = leafletPip.pointInLayer([point.long, point.lat], gjLayer)
     // let point = [this.state.long, this.state.lat]
-
     while (results.length < 1) {
       console.log("inside loop")
       point = this.randomLatLong()
-      console.log(this.state.lat)
-      console.log(this.state.long)
-      results = leafletPip.pointInLayer([point.long, point.lat],gjLayer)
-      console.log(results)
+      results = leafletPip.pointInLayer([point.long, point.lat], gjLayer)
     }
-    this.setState(point)
+    this.setState({marker: point})
+   
   }
 
   startButton = (evt) => {
     evt.preventDefault()
     this.setState({
       gameStarted: true,
+      zoom: 18,
     })
+    this.placeMarker()
   }
 
   componentDidMount() {
-    this.placeMarker()
+    
   }
 
   render() {
     return (
       <div>
-        <VTMap />
+        <VTMap marker={this.state.marker} zoom={this.state.zoom} />
         <div>
+
           <button disabled={this.state.gameStarted} onClick={this.startButton}>
             Start Game
           </button>
