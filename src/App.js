@@ -3,10 +3,11 @@ import VTMap from "./VTMap"
 import leafletPip from "@mapbox/leaflet-pip"
 import L from "leaflet"
 import borderData from "./border.js"
+import InfoBox from "./InfoBox.js"
 
 export class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       gameStarted: false,
@@ -57,6 +58,22 @@ export class App extends Component {
     this.placeMarker()
   }
 
+  guessButton = (evt) => {
+      evt.preventDefault()
+      this.setState({
+
+      })
+  }
+
+  giveUpButton = (evt) => {
+      evt.preventDefault()
+      this.setState({
+          gameStarted: false,
+          zoom: 8
+
+      })
+  }
+
   componentDidMount() {
     
   }
@@ -80,6 +97,10 @@ export class App extends Component {
             Guess
           </button>
         </div>
+        <InfoBox
+        marker = {this.state.marker}
+        gameStarted = {this.state.gameStarted}
+        />
       </div>
     )
   }
