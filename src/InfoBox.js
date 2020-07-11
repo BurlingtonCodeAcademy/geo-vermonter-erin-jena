@@ -20,50 +20,37 @@ export class InfoBox extends Component {
         })
       })
     }
+  }
 
-
-    getGeoArea = (marker) => {
-        let request = `https://nominatim.openstreetmap.org/reverse?lat=${marker.lat}&lon=${marker.long}&format=json`;
-        console.log(request);
-        return fetch(request)
-            .then((response) => response.json())
-            .then((response) => {
-                let townResult;
-
-                townResult = response.address.town || response.address.city || response.address.village || response.address.hamlet
-
-                console.log(townResult);
-                let countyResult = response.address.county;
-                console.log(countyResult);
-                return [townResult, countyResult];
-            });
-    }
-    render() {
-        return (
-            <div
-                style={{
-                    height: "150px",
-                    weight: "550px"
-                }}
-            > 
-                <p>
-                    Town: {this.props.gameStarted ? "?" : this.state.currentTown} 
-                </p>
-                <p>
-                    County: {this.props.gameStarted ? "?" : this.state.currentCounty}
-                </p>
-                <p>
-                   Latitude: {this.props.gameStarted ? "?" : } 
-                </p>
-                <p>
-                    Longitude: {this.props.gameStarted ? "?"}
-                </p>
-            </div>
-        )
-    }
-
-
-
-};
+  getGeoArea = (marker) => {
+    let request = `https://nominatim.openstreetmap.org/reverse?lat=${marker.lat}&lon=${marker.long}&format=json`;
+    console.log(request);
+    return fetch(request)
+        .then((response) => response.json())
+        .then((response) => {
+            let townResult;
+            townResult = response.address.town || response.address.city || response.address.village || response.address.hamlet
+            console.log(townResult);
+            let countyResult = response.address.county;
+            console.log(countyResult);
+            return [townResult, countyResult];
+        });
+}
+  render() {
+    return (
+      <div
+        style={{
+          height: "150px",
+          weight: "550px",
+        }}
+      >
+        <p>Town: {this.props.gameStarted ? "?" : this.state.currentTown }</p>
+        <p>County: {this.props.gameStarted ? "?" : this.state.currentCounty }</p>
+        <p>Latitude: {this.props.gameStarted ? "?" : this.props.lat }</p>
+        <p>Longitude: {this.props.gameStarted ? "?" : this.props.long }</p>
+      </div>
+    )
+  }
+}
 
 export default InfoBox
