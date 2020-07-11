@@ -21,8 +21,6 @@ componentDidUpdate() {
 }
 
   render() {
-    console.log(this.props.marker)
-    console.log(this.state.marker)
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
       return [coordSet[1], coordSet[0]]
     })
