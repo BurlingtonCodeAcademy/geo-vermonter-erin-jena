@@ -35,6 +35,8 @@ componentDidUpdate() {
           height: "650px",
           width: "550px",
         }}
+
+        zoomControl={false} scrollWheelZoom={false} touchZoom={false} doubleClickZoom={false} dragging={false}
       >
         <TileLayer
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
