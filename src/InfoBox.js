@@ -32,10 +32,10 @@ export class InfoBox extends Component {
         return fetch(request)
             .then((response) => response.json())
             .then((response) => {
-                console.log(response);
-                let townResult = response.address.city
-                    ? response.address.city
-                    : response.address.village;
+                let townResult;
+
+                townResult = response.address.town || response.address.city || response.address.village || response.address.hamlet
+
                 console.log(townResult);
                 let countyResult = response.address.county;
                 console.log(countyResult);
@@ -45,17 +45,23 @@ export class InfoBox extends Component {
     render() {
         return (
             <div
-                style= {{
+                style={{
                     height: "150px",
                     weight: "550px"
                 }}
-                >
-                    <p>
-                        Town: {this.props.gameStarted ? "Guess" : this.state.currentTown}
-                    </p>
-                    <p>
-                        County: {this.props.gameStarted ? "Guess" : this.state.currentCounty}
-                    </p>
+            > 
+                <p>
+                    Town: {this.props.gameStarted ? "?" : this.state.currentTown} 
+                </p>
+                <p>
+                    County: {this.props.gameStarted ? "?" : this.state.currentCounty}
+                </p>
+                <p>
+                   Latitude: {this.props.gameStarted ? "?" : } 
+                </p>
+                <p>
+                    Longitude: {this.props.gameStarted ? "?"}
+                </p>
             </div>
         )
     }
