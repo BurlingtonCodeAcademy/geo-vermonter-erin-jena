@@ -11,8 +11,8 @@ export class App extends Component {
 
     this.state = {
       gameStarted: false,
-      long: -72.7317,
-      lat: 44.0886,
+      long: '',
+      lat: '',
       zoom: 8,
       marker: {
         lat: 43.85,
@@ -37,15 +37,18 @@ export class App extends Component {
   placeMarker = () => {
     let gjLayer = L.geoJSON(borderData)
     let point = this.randomLatLong()
-
+    console.log(point)
     let results = leafletPip.pointInLayer([point.long, point.lat], gjLayer)
     // let point = [this.state.long, this.state.lat]
     while (results.length < 1) {
-      console.log("inside loop")
       point = this.randomLatLong()
       results = leafletPip.pointInLayer([point.long, point.lat], gjLayer)
     }
-    this.setState({marker: point})
+    this.setState({
+      marker: point,
+      lat: point.lat,
+      long: point.long
+    })
    
   }
 
@@ -98,6 +101,8 @@ export class App extends Component {
           </button>
         </div>
         <InfoBox
+        lat = {this.state.lat}
+        long = {this.state.long}
         marker = {this.state.marker}
         gameStarted = {this.state.gameStarted}
         />
