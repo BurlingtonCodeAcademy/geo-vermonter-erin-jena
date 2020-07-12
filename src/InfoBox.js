@@ -10,42 +10,31 @@ export class InfoBox extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    console.log(prevProps.marker)
-    if (prevProps.marker !== this.props.marker) {
-      this.getGeoArea(this.props.marker).then((response) => {
-        this.setState({
-          currentTown: response[0],
-          currentCounty: response[1],
-        })
-      })
-    }
-  }
+//   componentDidUpdate(prevProps) {
+//     console.log(prevProps.marker)
+//     if (prevProps.marker !== this.props.marker) {
+//       this.getGeoArea(this.props.marker).then((response) => {
+//         this.setState({
+//           currentTown: response[0],
+//           currentCounty: response[1],
+//         })
+//       })
+//     }
+//   }
 
-  getGeoArea = (marker) => {
-    let request = `https://nominatim.openstreetmap.org/reverse?lat=${marker.lat}&lon=${marker.long}&format=json`;
-    console.log(request);
-    return fetch(request)
-        .then((response) => response.json())
-        .then((response) => {
-            let townResult;
-            townResult = response.address.town || response.address.city || response.address.village || response.address.hamlet
-            console.log(townResult);
-            let countyResult = response.address.county;
-            console.log(countyResult);
-            return [townResult, countyResult];
-        });
-}
+  
   render() {
+      console.log(this.props.town)
+      console.log(this.props.county)
     return (
       <div
         style={{
           height: "150px",
-          weight: "550px",
+          
         }}
       >
-        <p>Town: {this.props.gameStarted ? "?" : this.state.currentTown }</p>
-        <p>County: {this.props.gameStarted ? "?" : this.state.currentCounty }</p>
+        <p>Town: {this.props.gameStarted ? "?" : this.props.town }</p>
+        <p>County: {this.props.gameStarted ? "?" : this.props.county }</p>
         <p>Latitude: {this.props.gameStarted ? "?" : this.props.lat }</p>
         <p>Longitude: {this.props.gameStarted ? "?" : this.props.long }</p>
       </div>
