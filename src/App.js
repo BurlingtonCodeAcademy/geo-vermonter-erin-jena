@@ -109,11 +109,24 @@ export class App extends Component {
             this.setState({
                 guessButton: false
             })
-            
-        }
-// if(this.state.county.split("").join("-").toLowerCase()===evt.target.id) {
-//     win, else subtract 10}
 
+        }
+        let compareCounty = this.state.county.split(" ").join("-").toLowerCase()
+      
+        if (evt.target.id === compareCounty) {
+
+            this.setState({
+                victory: true
+            })
+            console.log(compareCounty)
+        } else {
+            this.setState((prevState) => {
+
+               return {score: ((prevState.score) - 10)}
+
+            })
+        }
+        
 
     }
 
@@ -136,6 +149,7 @@ export class App extends Component {
             <div>
                 <VTMap marker={this.state.marker} zoom={this.state.zoom} />
                 {this.state.guessButton ? <GuessModal handleGuess={this.handleGuess} /> : false}
+                {this.state.victory ? <h1>Congratulations! You win!</h1>: false}
                 <div>
 
                     <button disabled={this.state.gameStarted} onClick={this.startButton}>
