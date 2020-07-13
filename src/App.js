@@ -8,6 +8,7 @@ import InfoBox from "./InfoBox.js"
 import GuessModal from "./GuessModal.js"
 
 
+
 // class App contains the contents to run our game
 export class App extends Component {
     constructor(props) {
@@ -23,8 +24,8 @@ export class App extends Component {
                 long: -72.7317
             },
             guessButton: false,
-            town: '?',
-            county: '?',
+            town: '',
+            county: '',
             score: 100
         }
     }
@@ -95,6 +96,68 @@ export class App extends Component {
         this.placeMarker()
     }
 
+
+ 
+
+    //movement around the board
+    moveButton = (evt) => {
+
+        if (evt.target.getAttribute('id') === "north") {
+            this.setState((prevState) => {
+                return {
+                    marker: {
+                        lat: prevState.marker.lat + 0.002,
+                        long: prevState.marker.long
+                    },
+                    score: ((prevState.score -1))
+                }
+            })
+        } else if (evt.target.getAttribute("id") === "south") {
+            this.setState((prevState) => {
+                return {
+                    marker: {
+                        lat: prevState.marker.lat - 0.002,
+                        long: prevState.marker.long
+                    },
+                    score: ((prevState.score -1))
+                }
+            })
+        } else if (evt.target.getAttribute("id") === "east") {
+            this.setState((prevState) => {
+                return {
+                    marker: {
+                        lat: prevState.marker.lat,
+                        long: prevState.marker.long + 0.002
+                    },
+                    score: ((prevState.score -1))
+                }
+            })
+        } else if (evt.target.getAttribute("id") === "west") {
+                this.setState((prevState) => {
+                    return {
+                        marker: {
+                            lat: prevState.marker.lat,
+                            long: prevState.marker.long - 0.002,
+                        },
+                        score: ((prevState.score -1))
+                    }
+                })
+        } else if (evt.target.getAttribute("id") === "return") {
+            this.setState((prevState) => {
+                return {
+                    marker: {
+                        lat: this.state.lat,
+                        long: this.state.long
+                    }
+                }
+            })
+        }
+
+
+
+    }
+
+
     // the guess button for the game
     guessButton = (evt) => {
 
@@ -112,21 +175,30 @@ export class App extends Component {
 
         }
         let compareCounty = this.state.county.split(" ").join("-").toLowerCase()
-      
+
         if (evt.target.id === compareCounty) {
 
-            this.setState({
-                victory: true
+            this.setState((prevState) => {
+                return {
+
+                    score: ((prevState.score + 50)),
+                    victory: true,
+                    incorrectGuess: false
+                }
             })
             console.log(compareCounty)
         } else {
             this.setState((prevState) => {
 
-               return {score: ((prevState.score) - 10)}
+                return {
+                    score: ((prevState.score) - 10),
+                    guessButton: false,
+                    incorrectGuess: true,
+                }
 
             })
         }
-        
+
 
     }
 
@@ -145,11 +217,14 @@ export class App extends Component {
     }
 
     render() {
+
         return (
             <div>
                 <VTMap marker={this.state.marker} zoom={this.state.zoom} />
                 {this.state.guessButton ? <GuessModal handleGuess={this.handleGuess} /> : false}
-                {this.state.victory ? <h1>Congratulations! You win!</h1>: false}
+                {this.state.victory ? <h1>Congratulations! You win!</h1> : false}
+                {this.state.incorrectGuess ? <h1>Wrong! Guess Again!</h1> : false}
+
                 <div>
 
                     <button disabled={this.state.gameStarted} onClick={this.startButton}>
@@ -171,9 +246,17 @@ export class App extends Component {
                     town={this.state.town}
                     county={this.state.county}
                     gameStarted={this.state.gameStarted}
+                    score={this.state.score}
                 />
-            </div>
 
+                <div>
+                    <button onClick={this.moveButton} id='north'>North</button>
+                    <button onClick={this.moveButton} id='south'>South</button>
+                    <button onClick={this.moveButton} id='east'>East</button>
+                    <button onClick={this.moveButton} id='west'>West</button>
+                    <button onClick={this.moveButton} id='return'>Return</button>
+                </div>
+            </div>
         )
     }
 }

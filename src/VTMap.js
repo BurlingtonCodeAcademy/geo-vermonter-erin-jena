@@ -1,5 +1,5 @@
 import React from "react"
-import { Map, TileLayer, Polygon, Marker } from "react-leaflet"
+import { Map, TileLayer, Polygon, Marker, Polyline } from "react-leaflet"
 import borderData from "./border.js"
 import L from "leaflet"
 
@@ -42,6 +42,7 @@ componentDidUpdate() {
         />
         <Marker position={[this.state.marker.lat, this.state.marker.long]} />
         <Polygon positions={vtBorder} />{" "}
+        <Polyline key={id} positions={ } color={'red'} />
       </Map>
     )
   }

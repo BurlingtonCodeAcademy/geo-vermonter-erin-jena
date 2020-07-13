@@ -10,18 +10,6 @@ export class InfoBox extends Component {
     }
   }
 
-//   componentDidUpdate(prevProps) {
-//     console.log(prevProps.marker)
-//     if (prevProps.marker !== this.props.marker) {
-//       this.getGeoArea(this.props.marker).then((response) => {
-//         this.setState({
-//           currentTown: response[0],
-//           currentCounty: response[1],
-//         })
-//       })
-//     }
-//   }
-
   
   render() {
       console.log(this.props.town)
@@ -37,6 +25,7 @@ export class InfoBox extends Component {
         <p>County: {this.props.gameStarted ? "?" : this.props.county }</p>
         <p>Latitude: {this.props.gameStarted ? "?" : this.props.lat }</p>
         <p>Longitude: {this.props.gameStarted ? "?" : this.props.long }</p>
+        <p>Score: {this.props.score}</p>
       </div>
     )
   }
