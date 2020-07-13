@@ -42,7 +42,7 @@ componentDidUpdate() {
         />
         <Marker position={[this.state.marker.lat, this.state.marker.long]} />
         <Polygon positions={vtBorder} />{" "}
-        <Polyline key={id} positions={ } color={'red'} />
+        <Polyline key='drawLine' positions={this.props.movesArray} color={'red'} />
       </Map>
     )
   }

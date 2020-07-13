@@ -26,7 +26,8 @@ export class App extends Component {
             guessButton: false,
             town: '',
             county: '',
-            score: 100
+            score: 100,
+            movesArray: []
         }
     }
 
@@ -57,12 +58,16 @@ export class App extends Component {
         }
 
         this.getGeoArea(point)
+        const {movesArray} = this.state
+        let startLocation = [point.lat, point.long]
+        const newMoveArray = movesArray.concat([startLocation])
 
         this.setState({
 
             marker: point,
             lat: point.lat,
-            long: point.long
+            long: point.long,
+            movesArray: newMoveArray
         })
 
     }
@@ -88,7 +93,7 @@ export class App extends Component {
 
     // the start button for the game
     startButton = (evt) => {
-
+        
         this.setState({
             gameStarted: true,
             zoom: 18,
@@ -103,43 +108,60 @@ export class App extends Component {
     moveButton = (evt) => {
 
         if (evt.target.getAttribute('id') === "north") {
+            const {movesArray} = this.state
+            let newLat = this.state.marker.lat + 0.002
+            const newMoveArray = movesArray.concat([[newLat,this.state.marker.long]])
             this.setState((prevState) => {
                 return {
                     marker: {
                         lat: prevState.marker.lat + 0.002,
                         long: prevState.marker.long
                     },
-                    score: ((prevState.score -1))
+                    score: ((prevState.score -1)),
+                    movesArray: newMoveArray
+
                 }
             })
         } else if (evt.target.getAttribute("id") === "south") {
+            const {movesArray} = this.state
+            let newLat = this.state.lat - 0.002
+            const newMoveArray = movesArray.concat([[newLat, this.state.marker.long]])
             this.setState((prevState) => {
                 return {
                     marker: {
                         lat: prevState.marker.lat - 0.002,
                         long: prevState.marker.long
                     },
-                    score: ((prevState.score -1))
+                    score: ((prevState.score -1)),
+                    movesArray: newMoveArray
                 }
             })
         } else if (evt.target.getAttribute("id") === "east") {
+            const {movesArray} = this.state
+            let newLong = this.state.long + 0.002
+            const newMoveArray = movesArray.concat([[this.state.marker.lat, newLong]])
             this.setState((prevState) => {
                 return {
                     marker: {
                         lat: prevState.marker.lat,
                         long: prevState.marker.long + 0.002
                     },
-                    score: ((prevState.score -1))
+                    score: ((prevState.score -1)),
+                    movesArray: newMoveArray
                 }
             })
         } else if (evt.target.getAttribute("id") === "west") {
+            const {movesArray} = this.state
+            let newLong = this.state.long + 0.002
+            const newMoveArray = movesArray.concat([[this.state.marker.lat, newLong]])
                 this.setState((prevState) => {
                     return {
                         marker: {
                             lat: prevState.marker.lat,
                             long: prevState.marker.long - 0.002,
                         },
-                        score: ((prevState.score -1))
+                        score: ((prevState.score -1)),
+                        movesArray: newMoveArray
                     }
                 })
         } else if (evt.target.getAttribute("id") === "return") {
@@ -220,7 +242,8 @@ export class App extends Component {
 
         return (
             <div>
-                <VTMap marker={this.state.marker} zoom={this.state.zoom} />
+                <VTMap marker={this.state.marker} zoom={this.state.zoom} movesArray = {this.state.movesArray}/>
+                
                 {this.state.guessButton ? <GuessModal handleGuess={this.handleGuess} /> : false}
                 {this.state.victory ? <h1>Congratulations! You win!</h1> : false}
                 {this.state.incorrectGuess ? <h1>Wrong! Guess Again!</h1> : false}
