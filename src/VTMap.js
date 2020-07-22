@@ -9,13 +9,15 @@ class VTMap extends React.Component {
     super(props)
 
     this.state = {
-      marker: this.props.marker
+      marker: this.props.marker,
+      movesArray: []
     }
   }
 
 componentDidUpdate() {
+  console.log(this.props.movesArray)
   if(this.state.marker !== this.props.marker) {
-    this.setState({marker: this.props.marker})
+    this.setState({marker: this.props.marker,movesArray: this.props.movesArray})
     
   }
 }
@@ -42,7 +44,7 @@ componentDidUpdate() {
         />
         <Marker position={[this.state.marker.lat, this.state.marker.long]} />
         <Polygon positions={vtBorder} />{" "}
-        <Polyline key='drawLine' positions={this.props.movesArray} color={'red'} />
+        <Polyline key='drawLine' positions={this.state.movesArray} color={'red'} />
       </Map>
     )
   }
